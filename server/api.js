@@ -72,12 +72,26 @@ app.get("/getproducts", async (req, res) => {
     res.send(productData);
 });
 
+
+app.get("/getproduct/:id", async (req, res) => {
+    await connectProd();
+
+    let productId = parseInt(req.params.id)
+    let productData = await dbtl.find({id:productId}).toArray();
+    console.log(productData);
+
+    res.send(productData);
+});
+
 app.get("/getcategories", async (req, res)=>{
     await connectCategories();
     let categoryData = await dbtl.find({}).toArray();
 
     res.send(categoryData)
-})
+});
+
+
+
 app.listen(5000, () => {
     console.log("Server started : http://127.0.0.1:5000");
 });
