@@ -11,18 +11,29 @@ app.use(express.urlencoded({
 }));
 
 app.use(express.json());
-var client;
+var client; 
 var dbtl;
 async function connectDB(){
     client = await mongoClient.connect(connectionString);
-    
-    dbtl = await client.db("reactdb").collection("tblusers");
-
 }
 
 connectDB();
 
+async function connectUser(){
+    dbtl = await client.db("reactdb").collection("tblusers");
+}
+
+async function connectProd(){
+    dbtl = await client.db("reactdb").collection("tblproducts");
+    //console.log(dbtl);
+}
+
+async function connectCategories(){
+    dbtl = await client.db("reactdb").collection("tblcategories");
+}
+
 app.get("/getusers", async (req, res) => {
+    await connectUser();
 
     var data = await dbtl.find({}).toArray();
     console.log(data);
@@ -30,7 +41,9 @@ app.get("/getusers", async (req, res) => {
     res.send(data);
 });
 
+
 app.post("/registeruser", async (req,res)=>{
+    connectUser();
     var userdetails = {
         UserId: req.body.UserId,
         UserName: req.body.UserName,
@@ -50,6 +63,21 @@ app.post("/registeruser", async (req,res)=>{
     })
 })
 
+app.get("/getproducts", async (req, res) => {
+    await connectProd();
+
+    let productData = await dbtl.find({}).toArray();
+    console.log(productData);
+
+    res.send(productData);
+});
+
+app.get("/getcategories", async (req, res)=>{
+    await connectCategories();
+    let categoryData = await dbtl.find({}).toArray();
+
+    res.send(categoryData)
+})
 app.listen(5000, () => {
     console.log("Server started : http://127.0.0.1:5000");
 });
