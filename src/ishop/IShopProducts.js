@@ -15,7 +15,7 @@ export default function IShopProducts(){
         .then(response =>{
             setProducts(response.data);
         })
-    })
+    },[])
     return(
         <div>
             <h2>{category} List</h2>
@@ -24,7 +24,7 @@ export default function IShopProducts(){
                     products.filter(item=>item.category == category).map(product =>{
                        return <li key={product.id}>
                         <img src={product.image} width="50" height="50" />
-                        <div><Link to={"/details/" + product.id} >{product.title}</Link></div></li>
+                        <div><Link  to={"/details/" + product.id}>{product.title}</Link></div></li>
                     })
                 }
             </ol>

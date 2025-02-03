@@ -26,7 +26,7 @@ export default function IShopDashboard(){
             setUserId(cookie["userid"]);
             loadCategories();
         }
-    })
+    },[])
 
     function handleSignout(){
         removeCookie("userid");

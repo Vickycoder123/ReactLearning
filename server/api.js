@@ -77,6 +77,7 @@ app.get("/getproduct/:id", async (req, res) => {
     await connectProd();
 
     let productId = parseInt(req.params.id)
+    //console.log(productId)
     let productData = await dbtl.find({id:productId}).toArray();
     console.log(productData);
 
